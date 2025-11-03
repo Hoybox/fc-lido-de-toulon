@@ -18,7 +18,7 @@ import {
     PauseIcon,
     SparklesIcon,
     LogoutIcon
-} from './icons/Icons';
+} from './icons/icons';
 import { mockCalendarEvents } from '../data/mockData';
 import { useAuth } from '../hooks/useAuth';
 

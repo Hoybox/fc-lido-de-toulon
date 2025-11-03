@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { mockClubInfo } from '../data/mockData';
 import { ClubInfo, Role } from '../types';
-import { PencilIcon, TrashIcon } from '../components/icons/Icons';
+import { PencilIcon, TrashIcon } from '../components/icons/icons';
 import Logo from '../components/Logo';
 import { useSite } from '../hooks/useSite';
 import { useAuth } from '../hooks/useAuth';

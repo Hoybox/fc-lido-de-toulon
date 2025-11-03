@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MediaItem, Role } from '../types';
-import { PlusIcon, TrashIcon, PencilIcon } from '../components/icons/Icons';
-import useLocalStorage from '../hooks/useLocalStorage.tsx';
+import { PlusIcon, TrashIcon, PencilIcon } from '../components/icons/icons';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { useAuth } from '../hooks/useAuth';
 
 const initialMedia: { [key: string]: MediaItem[] } = {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { mockCalendarEvents } from '../data/mockData';
 import { CalendarEvent, EventType, Role } from '../types';
-import { PlusIcon, PencilIcon, TrashIcon, ShareIcon } from '../components/icons/Icons';
+import { PlusIcon, PencilIcon, TrashIcon, ShareIcon } from '../components/icons/icons';
 import { useAuth } from '../hooks/useAuth';
 
 const EventModal: React.FC<{ event?: CalendarEvent | null; date?: Date, onSave: (event: CalendarEvent) => void; onClose: () => void; }> = ({ event, date, onSave, onClose }) => {

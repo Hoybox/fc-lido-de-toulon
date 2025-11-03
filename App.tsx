@@ -9,7 +9,7 @@ import CalendarPage from './pages/CalendarPage';
 import ClubPage from './pages/ClubPage';
 import PaniniPage from './pages/PaniniPage';
 import PenaltyPage from './pages/PenaltyPage';
-import Header from './Components/Header';
+import Header from './components/Header';
 import { Page, Role } from './types';
 import LoginPage from './pages/LoginPage';
 

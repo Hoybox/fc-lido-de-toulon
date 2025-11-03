@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 import { User, Role } from '../types';
-import useLocalStorage from './useLocalStorage.tsx';
+import useLocalStorage from './useLocalStorage';
 
 interface UserCredentials {
     username: string;

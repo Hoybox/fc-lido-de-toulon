@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import useLocalStorage from '../hooks/useLocalStorage.tsx';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { AlbumSlotData, PaniniCardData, TeamSlot, AllCollections, PlayerCollection } from '../types';
 import { paniniPlayers } from '../data/paniniPlayers';
 import { generatePaniniImage } from '../services/geminiService';
-import AlbumSlot from '../components/AlbumSlot';
-import PaniniCard from '../components/PaniniCard';
-import { UsersIcon, TicketIcon, SwitchHorizontalIcon } from '../components/icons/Icons';
+import AlbumSlot from '../components/AlbumSlot.js';
+import PaniniCard from '../components/PaniniCard.js';
+import { UsersIcon, TicketIcon, SwitchHorizontalIcon } from '../components/icons/icons.js';
 import { useSite } from '../hooks/useSite';
 
 // --- MOCK DATA & HELPERS ---

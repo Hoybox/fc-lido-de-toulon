@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode, useState } from 'react';
-import useLocalStorage from './useLocalStorage.tsx';
+import useLocalStorage from './useLocalStorage';
 
 const LOGO_DATA_URL = 'https://lh3.googleusercontent.com/d/1ywPPqbphpaFkBXvrB66kTXBk0sxp8pK7';
 
