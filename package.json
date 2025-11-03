@@ -2,11 +2,14 @@
   "name": "fclido-app",
   "version": "1.0.0",
   "description": "Frontend and backend for FC Lido application.",
-  "main": "server.js",
+  "main": "server.mjs",
   "type": "module",
   "scripts": {
+    "dev": "concurrently \"npm run watch:css\" \"nodemon server.mjs\"",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./dist/index.css --watch",
+    "build:css": "tailwindcss -i ./src/input.css -o ./dist/index.css --minify",
+    "build": "npm run build:css && node build.mjs",
     "start": "node server.mjs",
-    "build": "node build.mjs",
     "postinstall": "npm run build"
   },
   "dependencies": {
