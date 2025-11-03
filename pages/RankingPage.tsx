@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { mockRanking, mockMatches } from '../data/mockData';
 import { TeamStats, Match, Role } from '../types';
-import { PencilIcon, TrashIcon, PlusIcon } from '../components/icons/icons';
+import { PencilIcon, TrashIcon, PlusIcon } from '../components/icons/Icons';
 import { useAuth } from '../hooks/useAuth';
 
 const MatchModal: React.FC<{ match?: Match | null; onSave: (match: Match) => void; onClose: () => void; }> = ({ match, onSave, onClose }) => {

@@ -5,7 +5,7 @@ import { paniniPlayers } from '../data/paniniPlayers';
 import { generatePaniniImage } from '../services/geminiService';
 import AlbumSlot from '../components/AlbumSlot.js';
 import PaniniCard from '../components/PaniniCard.js';
-import { UsersIcon, TicketIcon, SwitchHorizontalIcon } from '../components/icons/icons.js';
+import { UsersIcon, TicketIcon, SwitchHorizontalIcon } from '../components/icons/Icons.js';
 import { useSite } from '../hooks/useSite';
 
 // --- MOCK DATA & HELPERS ---

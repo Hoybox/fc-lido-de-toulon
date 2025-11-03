@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Player } from '../types';
-import { PencilIcon, TrashIcon, SparklesIcon } from './icons/icons';
+import { PencilIcon, TrashIcon, SparklesIcon } from './icons/Icons';
 import { generateFunFact } from '../services/geminiService';
 import { useSite } from '../hooks/useSite';
 

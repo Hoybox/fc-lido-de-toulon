@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import Logo from '../components/Logo';
-import { EyeIcon, EyeSlashIcon } from '../components/icons/icons';
+import { EyeIcon, EyeSlashIcon } from '../components/icons/Icons';
 
 const ForgotPasswordModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const [loginId, setLoginId] = useState('');

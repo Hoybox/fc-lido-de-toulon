@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { mockPlayers } from '../data/mockData';
 import { Player, Role } from '../types';
 import PlayerCard from '../components/PlayerCard';
-import { PlusIcon } from '../components/icons/icons';
+import { PlusIcon } from '../components/icons/Icons';
 import { useAuth } from '../hooks/useAuth';
 
 const PlayerFormModal: React.FC<{ player?: Player | null; onSave: (player: Player) => void; onClose: () => void; }> = ({ player, onSave, onClose }) => {

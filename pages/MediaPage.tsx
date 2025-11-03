@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MediaItem, Role } from '../types';
-import { PlusIcon, TrashIcon, PencilIcon } from '../components/icons/icons';
+import { PlusIcon, TrashIcon, PencilIcon } from '../components/icons/Icons';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { useAuth } from '../hooks/useAuth';
 

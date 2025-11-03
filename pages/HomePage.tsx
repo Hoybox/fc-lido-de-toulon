@@ -8,7 +8,7 @@ import {
     BuildingLibraryIcon,
     TicketIcon,
     BoltIcon,
-} from '../components/icons/icons';
+} from '../components/icons/Icons';
 import Logo from '../components/Logo';
 import { useAuth } from '../hooks/useAuth';
 
