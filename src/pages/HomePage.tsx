@@ -8,7 +8,7 @@ import {
     BuildingLibraryIcon,
     TicketIcon,
     BoltIcon,
-} from '../components/icons/Icons';
+} from '../components/icons/Icons.tsx';
 import Logo from '../components/Logo';
 import { useAuth } from '../hooks/useAuth';
 

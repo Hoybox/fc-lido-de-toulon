@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { LeaderboardEntry } from '../types';
 
 type GameState = 'start' | 'aiming' | 'shot' | 'result';
