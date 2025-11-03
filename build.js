@@ -20,13 +20,20 @@ async function build() {
             outfile: path.join(distPath, 'bundle.js'),
             // Configuration robuste pour TypeScript et React
             loader: { '.ts': 'ts', '.tsx': 'tsx' },
-            resolveExtensions: ['.tsx', '.ts', '.js', '.json'], // Permet de trouver les fichiers .ts/.tsx
+            resolveExtensions: ['.tsx', '.ts', '.js', '.json'], 
             jsx: 'automatic',
-            tsconfig: 'tsconfig.json', // Indiquer explicitement le tsconfig
+            tsconfig: 'tsconfig.json',
             minify: true,
             sourcemap: true,
-            // Empêche esbuild de bundler les bibliothèques qui sont gérées par l'importmap
-            external: ['react', 'react-dom', 'react-dom/*', '@google/genai'],
+
+            // 🎯 CORRECTION MAJEURE : Indiquer à esbuild de cibler le navigateur.
+            platform: 'browser',
+            target: 'es2020',
+
+            // ❌ CORRECTION: On supprime 'react' et 'react-dom' des external. 
+            // Nous voulons qu'ils soient inclus et transpilés dans le bundle.js.
+            // On garde uniquement les dépendances Node.js du serveur (qui ne doivent pas être dans le frontend).
+            external: ['@google/genai'],
         });
         console.log("Bundle JavaScript créé avec succès.");
 
@@ -44,7 +51,7 @@ async function build() {
             '<script type="module" src="/bundle.js"></script>'
         );
 
-        );
+
         await fs.writeFile(destHtmlPath, htmlContent);
         console.log("Tag <script> mis à jour.");
 
