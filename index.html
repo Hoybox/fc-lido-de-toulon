@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC LIDO de Toulon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=DotGothic16&family=Inter:wght@300;400;600;700;900&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    
+    <script type="importmap">
+    {
+      "imports": {
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0"
+      }
+    }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #111827; /* bg-gray-900 */
+            color: white;
+        }
+
+        .font-anton { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; }
+        .font-teko { font-family: 'Inter', sans-serif; font-weight: 600; }
+        .font-impact { font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase; }
+        .font-trajan { font-family: 'Cinzel', serif; }
+        .font-berlin-sans { font-family: 'Poppins', sans-serif; font-weight: 600; }
+
+        /* Player Card Flip Animation */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front,
+        .card-back {
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Stat Gauge Styles */
+        .stat-gauge-container {
+            height: 10px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .stat-gauge-bar {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #3b82f6, #d946ef);
+            transition: width 0.5s ease-in-out;
+        }
+
+        .stat-gauge-glow-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.6;
+        }
+
+        .stat-gauge-glow {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #d946ef);
+            filter: blur(8px);
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Custom scrollbar for player card back */
+        .card-back .overflow-y-auto::-webkit-scrollbar {
+            width: 4px;
+        }
+        .card-back .overflow-y-auto::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        .card-back .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #f43f5e; /* rose-500 */
+            border-radius: 2px;
+        }
+        .modal-overlay {
+            z-index: 100;
+        }
+
+        /* Panini Album Styles */
+        .album-page {
+            background-image: url('https://www.transparenttextures.com/patterns/football.png');
+            background-color: #166534; /* green-800 */
+            border: 2px solid #a3a3a3; /* neutral-400 */
+        }
+        .draw-pile {
+            min-height: 180px;
+            background: rgba(0,0,0,0.2);
+            border: 2px dashed #4b5563; /* gray-600 */
+        }
+        .album-slot-empty {
+            border: 2px dashed #6b7280; /* gray-500 */
+            background-color: rgba(255,255,255,0.05);
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        
+        /* Panini Team Formation Styles */
+        .football-pitch {
+            background-color: #15803d; /* green-700 */
+            border: 3px solid rgba(255,255,255,0.5);
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            gap: 0.5rem;
+            padding: 1rem;
+            aspect-ratio: 7 / 12;
+            max-width: 600px;
+            margin: auto;
+            position: relative;
+        }
+
+        /* Center line */
+        .football-pitch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 2px solid rgba(255,255,255,0.2);
+        }
+
+        /* Center circle */
+        .football-pitch::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20%;
+            padding-bottom: 20%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .team-slot-empty {
+            background: rgba(0,0,0,0.3);
+            border: 2px dashed #9ca3af;
+            border-radius: 0.5rem;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .team-slot-empty:hover {
+            background: rgba(0,0,0,0.5);
+            border-color: white;
+        }
+
+        .panini-landing-button {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .panini-landing-button:hover {
+            transform: translateY(-10px) rotateX(-5deg);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Ticker Animation */
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: scroll-left 60s linear infinite;
+        }
+        
+        .ticker-container:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
+        /* LED Banner */
+        .led-banner {
+            font-family: 'DotGothic16', sans-serif;
+            background-color: #080204;
+            color: #fd6c9e;
+            text-shadow: 0 0 5px #f43f5e, 0 0 10px #f43f5e, 0 0 15px rgba(244, 63, 94, 0.5);
+            padding: 0.25rem 0;
+            line-height: 1.5rem; /* h-6 */
+            font-size: 1.25rem; /* text-xl */
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 40; /* Header is 50 */
+        }
+        
+        /* Panini Pack Opening Animation */
+        .card-pack {
+            width: 180px;
+            height: 280px;
+            background: linear-gradient(45deg, #d946ef, #f43f5e);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #fde047;
+            box-shadow: 0 0 30px #f43f5e, inset 0 0 15px rgba(255,255,255,0.5);
+        }
+        @keyframes pack-show {
+            from { transform: scale(0) rotate(-180deg); opacity: 0; }
+            to { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        .animate-pack-show {
+            animation: pack-show 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+        @keyframes pack-shake {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(-5px) rotate(-2deg); }
+            50% { transform: translateX(5px) rotate(2deg); }
+            75% { transform: translateX(-5px) rotate(-2deg); }
+        }
+        .animate-pack-shake:hover {
+            animation: pack-shake 0.5s ease-in-out infinite;
+        }
+        .card-slot-animation {
+            width: 150px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .card-animation-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-slot-animation .is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-animation-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 12px;
+        }
+        .card-animation-front {
+            background: linear-gradient(45deg, #1d4ed8, #3b82f6);
+            border: 4px solid #93c5fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            font-weight: bold;
+            color: rgba(255,255,255,0.5);
+        }
+        .card-animation-front::after {
+            content: '?';
+        }
+        .card-animation-back {
+            transform: rotateY(180deg);
+        }
+        @keyframes card-fly-out-base {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .animate-card-fly-out-1 { transform: translateX(-120%); animation: card-fly-out-base 0.5s 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; opacity: 0; }
+        .animate-card-fly-out-2 { transform: translateX(0); animation: card-fly-out-base 0.5s 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; opacity: 0; }
+        .animate-card-fly-out-3 { transform: translateX(120%); animation: card-fly-out-base 0.5s 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; opacity: 0; }
+
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+</body>
+</html>
