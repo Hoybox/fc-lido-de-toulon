@@ -1,7 +1,9 @@
+// build.mjs
 import { build } from 'esbuild';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 // Gestion de __dirname (ESM)
 const __filename = fileURLToPath(import.meta.url);
@@ -14,29 +16,42 @@ if (fs.existsSync(distDir)) {
   console.log('🧹 Dossier "dist" nettoyé.');
 }
 
-// 🔹 Build du bundle JS/TS
+// 🔹 Étape 1 : Compiler TailwindCSS
+console.log('🎨 Compilation de TailwindCSS...');
+try {
+  execSync('npx tailwindcss -i ./src/index.css -o ./dist/index.css --minify', { stdio: 'inherit' });
+  console.log('✅ Fichier CSS généré avec Tailwind.');
+} catch (err) {
+  console.error('❌ Erreur pendant la compilation Tailwind:', err);
+  process.exit(1);
+}
+
+// 🔹 Étape 2 : Build du bundle JS/TS
+console.log('⚙️ Compilation du code React/TypeScript...');
 await build({
   entryPoints: ['src/index.tsx'],
   bundle: true,
   minify: true,
-  sourcemap: true,
+  sourcemap: false,
   outdir: 'dist',
   target: ['es2017'],
   platform: 'browser',
   loader: {
     '.ts': 'ts',
     '.tsx': 'tsx',
+    '.png': 'file',
+    '.jpg': 'file',
+    '.jpeg': 'file',
+    '.svg': 'file',
   },
 });
-
 console.log('✅ Code compilé avec succès.');
 
-// 🔹 Copie manuelle du dossier "public" → "dist"
+// 🔹 Étape 3 : Copie du dossier public
 const publicDir = path.join(__dirname, 'public');
 if (fs.existsSync(publicDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 
-  // Copie chaque fichier depuis public vers dist
   const copyRecursive = (src, dest) => {
     for (const file of fs.readdirSync(src)) {
       const srcPath = path.join(src, file);
@@ -55,4 +70,4 @@ if (fs.existsSync(publicDir)) {
   console.log('📂 Dossier "public" copié vers "dist".');
 }
 
-console.log('✅ Build terminé avec succès !');
+console.log('🚀 Build terminé avec succès !');
